@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -9,29 +8,34 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
-    const data = await res.json();
+      const data = await res.json();
 
-    // ✅ IMPORTANT CHECK
-    if (res.ok && data.token) {
-      localStorage.setItem("token", data.token);
-
-      // ✅ REDIRECT TO MESS LISTING
-      navigate("/listings/mess");
-    } else {
-      alert(data.message || "Login failed");
+      if (res.ok && data.token) {
+        localStorage.setItem("token", data.token);
+        navigate("/listings/mess");
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      alert("Server error. Please try again later.");
     }
   };
 
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 bg-white shadow-xl rounded-2xl">
+        <h2 className="mb-6 text-3xl font-bold text-center text-blue-600">
           Login
         </h2>
 
@@ -54,12 +58,12 @@ export default function Login() {
             required
           />
 
-          <button className="w-full bg-blue-600 text-white py-2 rounded-lg">
+          <button className="w-full py-2 text-white bg-blue-600 rounded-lg">
             Login
           </button>
         </form>
 
-        <p className="text-center mt-4">
+        <p className="mt-4 text-center">
           Don’t have an account?{" "}
           <Link to="/register" className="text-blue-600">
             Register

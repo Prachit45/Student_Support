@@ -14,24 +14,24 @@ export default function Register() {
     e.preventDefault();
     setError("");
 
-    // ✅ Password match check
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: name, // backend expects `username`
-          email,
-          password,
-        }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: name,
+            email,
+            password,
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -40,35 +40,27 @@ export default function Register() {
         return;
       }
 
-      // ✅ Registration successful → redirect to login
       alert("Registration successful. Please login.");
       navigate("/login");
-
     } catch (err) {
       setError("Server not reachable");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
-        
-        {/* Heading */}
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 bg-white shadow-xl rounded-2xl">
+        <h2 className="mb-6 text-3xl font-bold text-center text-blue-600">
           Register
         </h2>
 
-        {/* Error */}
         {error && (
-          <p className="text-red-500 text-center mb-4">{error}</p>
+          <p className="mb-4 text-center text-red-500">{error}</p>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-
-          {/* Name */}
           <div>
-            <label className="block text-gray-700 mb-1">Full Name</label>
+            <label className="block mb-1 text-gray-700">Full Name</label>
             <input
               type="text"
               placeholder="Enter your name"
@@ -79,9 +71,8 @@ export default function Register() {
             />
           </div>
 
-          {/* Email */}
           <div>
-            <label className="block text-gray-700 mb-1">Email</label>
+            <label className="block mb-1 text-gray-700">Email</label>
             <input
               type="email"
               placeholder="Enter your email"
@@ -92,9 +83,8 @@ export default function Register() {
             />
           </div>
 
-          {/* Password */}
           <div>
-            <label className="block text-gray-700 mb-1">Password</label>
+            <label className="block mb-1 text-gray-700">Password</label>
             <input
               type="password"
               placeholder="Enter password"
@@ -105,9 +95,8 @@ export default function Register() {
             />
           </div>
 
-          {/* Confirm Password */}
           <div>
-            <label className="block text-gray-700 mb-1">Confirm Password</label>
+            <label className="block mb-1 text-gray-700">Confirm Password</label>
             <input
               type="password"
               placeholder="Confirm password"
@@ -118,21 +107,19 @@ export default function Register() {
             />
           </div>
 
-          {/* Register Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+            className="w-full py-2 text-white transition bg-blue-600 rounded-lg hover:bg-blue-700"
           >
             Register
           </button>
         </form>
 
-        {/* Login Link */}
-        <p className="text-center text-gray-600 mt-6">
+        <p className="mt-6 text-center text-gray-600">
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-blue-600 font-semibold hover:underline"
+            className="font-semibold text-blue-600 hover:underline"
           >
             Login
           </Link>

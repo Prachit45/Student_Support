@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
+import { HiOutlineMenu, HiX } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
@@ -40,18 +40,18 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
 
         {/* Logo */}
         <h1
           onClick={() => navigate("/")}
-          className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text cursor-pointer"
+          className="text-2xl font-bold text-transparent cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text"
         >
           Student_Support
         </h1>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex items-center space-x-8 font-medium text-gray-700">
+        <ul className="items-center hidden space-x-8 font-medium text-gray-700 md:flex">
           <li onClick={() => navigate("/")} className="cursor-pointer hover:text-blue-600">
             Home
           </li>
@@ -75,14 +75,14 @@ export default function Navbar() {
           {!token ? (
             <button
               onClick={handleLogin}
-              className="ml-6 bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition"
+              className="px-5 py-2 ml-6 text-white transition bg-blue-600 rounded-full hover:bg-blue-700"
             >
               Get Started
             </button>
           ) : (
             <button
               onClick={handleLogout}
-              className="ml-6 bg-red-500 text-white px-5 py-2 rounded-full hover:bg-red-600 transition"
+              className="px-5 py-2 ml-6 text-white transition bg-red-500 rounded-full hover:bg-red-600"
             >
               Logout
             </button>
@@ -92,14 +92,14 @@ export default function Navbar() {
         {/* Mobile Button */}
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <HiOutlineX size={26} /> : <HiOutlineMenu size={26} />}
+           {isOpen ? <HiX size={26} /> : <HiOutlineMenu size={26} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <ul className="md:hidden flex flex-col space-y-5 px-6 pb-6 text-gray-700 font-medium">
+        <ul className="flex flex-col px-6 pb-6 space-y-5 font-medium text-gray-700 md:hidden">
           <li onClick={() => navigate("/")}>Home</li>
           <li onClick={goMess}>Mess</li>
           <li onClick={goHostel}>Hostel</li>
@@ -109,14 +109,14 @@ export default function Navbar() {
           {!token ? (
             <button
               onClick={handleLogin}
-              className="bg-blue-600 text-white py-2 rounded-full hover:bg-blue-700 transition"
+              className="py-2 text-white transition bg-blue-600 rounded-full hover:bg-blue-700"
             >
               Get Started
             </button>
           ) : (
             <button
               onClick={handleLogout}
-              className="bg-red-500 text-white py-2 rounded-full hover:bg-red-600 transition"
+              className="py-2 text-white transition bg-red-500 rounded-full hover:bg-red-600"
             >
               Logout
             </button>
